@@ -3,6 +3,7 @@ import matplotlib
 import numpy as np
 import pandas as pd
 from math import sqrt
+import cmath
 import matplotlib.pyplot as plt
 
 #read the data from the file
@@ -50,7 +51,7 @@ userInput = [
             {'title':'Toy Story', 'rating':3.5},
             {'title':'Jumanji', 'rating':2},
             {'title':"Pulp Fiction", 'rating':5},
-            {'title':'Akira', 'rating':4.5},
+            {'title':'Akira', 'rating':5},
             {'title':'Heat', 'rating':3.5},
             {'title':'Heat', 'rating':3.5},
             {'title':'Persuasion', 'rating':4.5},
@@ -81,7 +82,7 @@ userSubsetGroup = userSubset.groupby(['userId'])
 # the input have higher priority.
 
 userSubsetGroup = sorted(userSubsetGroup, key=lambda x: len(x[1]), reverse=True)
-print(userSubsetGroup[0:3])
+#print(userSubsetGroup[0:3])
 
 userSubsetGroup = userSubsetGroup[0:100]
 
@@ -103,10 +104,12 @@ for name, group in userSubsetGroup:
     Sxx = sum([i**2 for i in tempRatingList]) - pow(sum(tempRatingList), 2)/float(nRatings)
     Syy = sum([i**2 for i in tempGroupList]) - pow(sum(tempGroupList), 2)/float(nRatings)
     Sxy = sum(i*j for i,j in zip(tempRatingList, tempGroupList))  - sum(tempRatingList)*sum(tempGroupList)/float(nRatings)
-
+    print(Sxx)
+    print(Sxy)
+    print(Syy)
 
     if Sxx != 0 and Syy != 0 and Sxy != 0:
-        pearsonCorrelationDict[name] = Sxy/sqrt(Sxx*Syy)
+        pearsonCorrelationDict[name] = Sxy/cmath.sqrt(Sxx*Syy)
 
     else:
         pearsonCorrelationDict[name] = 0
@@ -149,3 +152,4 @@ recommendation_df.head()
 recommendation_df = recommendation_df.sort_values(by='weighted average recommendation score', ascending=False)
 recommendation_df.head(10)
 movies_df.loc[movies_df['movieId'].isin(recommendation_df.head(10)['movieId'].tolist())]
+print(recommendation_df)
