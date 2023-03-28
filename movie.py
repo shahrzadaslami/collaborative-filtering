@@ -104,9 +104,7 @@ for name, group in userSubsetGroup:
     Sxx = sum([i**2 for i in tempRatingList]) - pow(sum(tempRatingList), 2)/float(nRatings)
     Syy = sum([i**2 for i in tempGroupList]) - pow(sum(tempGroupList), 2)/float(nRatings)
     Sxy = sum(i*j for i,j in zip(tempRatingList, tempGroupList))  - sum(tempRatingList)*sum(tempGroupList)/float(nRatings)
-    print(Sxx)
-    print(Sxy)
-    print(Syy)
+ 
 
     if Sxx != 0 and Syy != 0 and Sxy != 0:
         pearsonCorrelationDict[name] = Sxy/cmath.sqrt(Sxx*Syy)
@@ -151,5 +149,9 @@ recommendation_df.head()
 
 recommendation_df = recommendation_df.sort_values(by='weighted average recommendation score', ascending=False)
 recommendation_df.head(10)
+print(recommendation_df.head(10))
 movies_df.loc[movies_df['movieId'].isin(recommendation_df.head(10)['movieId'].tolist())]
-print(recommendation_df)
+
+
+
+
